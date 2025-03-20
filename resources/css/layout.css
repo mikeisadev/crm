@@ -1,0 +1,11 @@
+.container {
+    @apply m-0 px-4;
+}
+
+.box-header {
+    @apply px-4 py-6 text-center text-2xl font-semibold;
+}
+
+.box-footer {
+    @apply p-4 text-center text-sm;
+}

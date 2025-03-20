@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    min-height: 100%;
+    height: auto;
+    width: 100%;
+}
+
+/*
+ * Import separate CSS files for each component.
+ */
+@import "./layout.css";
+@import "./forms.css";
+@import "./buttons.css";
+@import "./endpoints.css";
+@import "./register.css";

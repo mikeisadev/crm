@@ -8,16 +8,20 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 
 import PrivateRoute from './routes/PrivateRoute';
 
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Admin from './pages/Admin';
+
 const App = () => {
     return (
         <AuthProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={<div>Home <Navigate to="/login"/></div>} />
-                    <Route path="/login" element={<div>Login</div>} />
-                    <Route path="/register" element={<div>Register</div>} />
-
-                    <Route path="/admin" element={<PrivateRoute element={<div>Admin</div>}/>} />
+                    <Route path="/" element={<PrivateRoute element={<Admin />} />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    
+                    <Route path="/admin" element={<PrivateRoute element={<Admin />}/>} />
                 </Routes>
             </Router>
         </AuthProvider>

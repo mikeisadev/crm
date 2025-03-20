@@ -2,31 +2,65 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        // Validate the request...
         $validated = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255',
-            'password' => 'required|min:8|max:255',
+            'fname'     => 'required|max:32',
+            'lname'     => 'required|max:32',
+            'email'     => 'required|email|max:80',
+            'password'  => 'required|min:8|max:20',
         ]);
 
-        // Create a new user...
+        $user = User::create([
+            'fname'     => $validated['fname'],
+            'lname'     => $validated['lname'],
+            'email'     => $validated['email'],
+            'password'  => $validated['password'],
+            'role'      => 'admin',
+        ]);
+
+        return response()->json([
+            'statua'    => 'success',
+            'message'   => 'User created successfully',
+        ]);
     }
 
     public function login(Request $request)
     {
-        // Validate the request...
         $validated = $request->validate([
-            'email' => 'required|email|max:255',
-            'password' => 'required|min:8|max:255',
+            'email' => 'required|email|max:80',
+            'password' => 'required|min:8|max:20',
         ]);
 
-        // Log the user in...
+        $user = User::where('email', $validated['email'])->first();
+
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'message' => ['Questa email non è registrata!'],
+            ]);
+        }
+
+        if (!Hash::check($validated['password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'message' => ['Password errata!'],
+            ]);
+        }
+
+        return response()->json([
+            'token' => $user->createToken('auth_token')->plainTextToken,
+            'user'  => [
+                'fname' => $user->fname,
+                'lname' => $user->lname,
+                'email' => $user->email,
+                'role'  => $user->role,
+            ],
+        ]);
     }
 
     public function logout(Request $request)
@@ -36,6 +70,11 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        // Get the current user...
+        return response()->json([
+            'fname' => $request->user()->fname,
+            'lname' => $request->user()->lname,
+            'email' => $request->user()->email,
+            'role'  => $request->user()->role,
+        ]);
     }
 }

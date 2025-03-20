@@ -2,10 +2,10 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { login, logout, getUser } from '../api';
 
 interface AuthContextType {
-    user: any;
-    token: string | null;
-    login: (data: object) => Promise<void>;
-    logout: () => void;
+    getUserObj: () => any;
+    getToken: () => string | null;
+    loginUser: (data: object) => Promise<void>;
+    logoutUser: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -16,17 +16,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         if (token) {
-            getUser(token).then(res => setUser(res.data));
+            getUser(token).then(res => {
+                console.log(res.data);
+                
+                setUser(res.data)
+            });
         }
     }, [token]);
 
-    const loginUser = async (data: object) => {
-        const response = await login(data);
+    const loginUser = async (data: FormData | object) => {
+        return new Promise(async (resolve, reject) => {
+            const response = await login(data);
 
-        setUser(response.data.user);
-        setToken(response.data.token);
+            setUser(response.data.user);
+            setToken(response.data.token);
+    
+            localStorage.setItem('token', response.data.token);
 
-        localStorage.setItem('token', response.data.token);
+            resolve(response);
+        });
     }
 
     const logoutUser = async () => {
@@ -38,8 +46,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('token');
     }
 
+    const getUserObj = () => user;
+
+    const getToken = () => token;
+
     return (
-        <AuthContext.Provider value={{ user, token, loginUser, logoutUser }}>
+        <AuthContext.Provider value={{ getUserObj, getToken, loginUser, logoutUser }}>
             {children}
         </AuthContext.Provider>
     );
