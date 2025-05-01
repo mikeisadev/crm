@@ -1,26 +1,26 @@
 import React from 'react';
 import { Link, redirect, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
     let navigate = useNavigate();
 
-    const { loginUser } = React.useContext(AuthContext);
+    const { loginUser } = useAuth();
 
     function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         e.stopPropagation();
         
         loginUser(new FormData(e.currentTarget))
-        .then((resp) => {
-            console.log(localStorage.getItem('token'), resp.data);
-            return navigate('/admin');
-        })
-        .catch(err => {
-            console.log(err);
-        });
+            .then((resp) => {
+                console.log(localStorage.getItem('token'), resp.data);
+                return navigate('/admin');
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     return (

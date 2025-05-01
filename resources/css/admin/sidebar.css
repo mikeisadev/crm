@@ -1,0 +1,28 @@
+.sidebar {
+    @apply bg-gray-800 text-white flex p-0 m-0;
+    position: fixed;
+    height: 100%;
+}
+
+.sidebar.open {
+    width: 260px;
+    transition: width 0.3s ease-in-out;
+}
+
+.sidebar.closed {
+    width: 60px;
+    transition: width 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.sidebar-wrap {
+    @apply flex flex-col items-start justify-between p-4 h-full;
+    height: 100%;
+    width: 100%;
+}
+
+.menu-item {
+    @apply flex gap-[8px] items-center p-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg w-full;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}

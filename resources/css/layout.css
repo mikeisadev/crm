@@ -1,5 +1,5 @@
 .container {
-    @apply m-0 px-4;
+    @apply m-0 px-4 w-full h-full;
 }
 
 .box-header {

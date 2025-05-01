@@ -10,7 +10,7 @@ import PrivateRoute from './routes/PrivateRoute';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Admin from './pages/Admin';
+import Admin from './pages/Admin/Admin';
 
 const App = () => {
     return (

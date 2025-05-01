@@ -26,3 +26,4 @@ body {
 @import "./buttons.css";
 @import "./endpoints.css";
 @import "./register.css";
+@import "./admin/admin.css";

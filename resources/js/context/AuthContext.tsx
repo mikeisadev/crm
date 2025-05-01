@@ -1,14 +1,18 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { login, logout, getUser } from '../api';
 
-interface AuthContextType {
+interface AuthCtxType {
     getUserObj: () => any;
     getToken: () => string | null;
     loginUser: (data: object) => Promise<void>;
     logoutUser: () => void;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+const AuthCtx = createContext<AuthCtxType | null>(null);
+
+export function useAuth() {
+    return useContext(AuthCtx) as AuthCtxType;
+}
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<any>(null);
@@ -51,8 +55,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const getToken = () => token;
 
     return (
-        <AuthContext.Provider value={{ getUserObj, getToken, loginUser, logoutUser }}>
+        <AuthCtx.Provider value={{ getUserObj, getToken, loginUser, logoutUser }}>
             {children}
-        </AuthContext.Provider>
+        </AuthCtx.Provider>
     );
 };

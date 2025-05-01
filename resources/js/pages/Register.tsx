@@ -10,12 +10,12 @@ const Register: React.FC<RegisterProps> = () => {
         e.preventDefault();
         
         register(new FormData(e.currentTarget))
-        .then(response => {
-            console.log(response.data);
-        })
-        .catch(error => {
-            console.error(error.response.data);
-        });
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.error(error.response.data);
+            });
     }
 
     return (
